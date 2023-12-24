@@ -3,19 +3,19 @@
 window.onload = function() {
   // Your web app's Firebase configuration
   var firebaseConfig = {
-    apiKey: "",
-    authDomain: "",
-    projectId: "",
-    storageBucket: "",
-    messagingSenderId: "",
-    appId: ""
+    apiKey: "AIzaSyBLyf_dz6xPC9wdthZSVtpatkc8JgFhE4Q",
+    authDomain: "chatbox-chats-default-rtdb.firebaseio.com",
+    projectId: "chatbox-chats",
+    storageBucket: "chatbox-chats.appspot.com",
+    messagingSenderId: "10200860576",
+    appId: "1:10200860576:android:262315d86f6d1732ddc6c5"
   };
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   // This is very IMPORTANT!! We're going to use "db" a lot.
   var db = firebase.database()
   // We're going to use oBjEcT OrIeNtEd PrOgRaMmInG. Lol
-  class MEME_CHAT{
+  class chat_box{
     // Home() is used to create the home page
     home(){
       // First clear the body before adding in
@@ -39,7 +39,7 @@ window.onload = function() {
 
       var title = document.createElement('h1')
       title.setAttribute('id', 'title')
-      title.textContent = 'MemeChat 2.0'
+      title.textContent = 'Chat Box'
 
       title_inner_container.append(title)
       title_container.append(title_inner_container)
@@ -47,7 +47,7 @@ window.onload = function() {
     }
     // create_join_form() creates the join form
     create_join_form(){
-      // YOU MUST HAVE (PARENT = THIS). OR NOT. I'M NOT YOUR BOSS!😂
+      // YOU MUST HAVE (PARENT = THIS). OR NOT. I'M NOT YOUR BOSS!
       var parent = this;
 
       var join_container = document.createElement('div')
@@ -64,10 +64,11 @@ window.onload = function() {
 
       var join_input_container = document.createElement('div')
       join_input_container.setAttribute('id', 'join_input_container')
+
       var join_input = document.createElement('input')
       join_input.setAttribute('id', 'join_input')
       join_input.setAttribute('maxlength', 15)
-      join_input.placeholder = 'No.... It\'s Patrick Star'
+      join_input.placeholder = 'No.... It\'s USER'
       // Every time we type into the join_input
       join_input.onkeyup  = function(){
         // If the input we have is longer that 0 letters
@@ -82,7 +83,7 @@ window.onload = function() {
             // Remove the join_container. So the site doesn't look weird.
             join_container.remove()
             // parent = this. But it is not the join_button
-            // It is (MEME_CHAT = this).
+            // It is (chat_box = this).
             parent.create_chat()
           }
         }else{
@@ -128,7 +129,8 @@ window.onload = function() {
       title_container.classList.add('chat_title_container')
       // Make the title smaller by making it 'chat_title'
       title.classList.add('chat_title')
-          var chat_container = document.createElement('div')
+
+      var chat_container = document.createElement('div')
       chat_container.setAttribute('id', 'chat_container')
 
       var chat_inner_container = document.createElement('div')
@@ -174,7 +176,21 @@ window.onload = function() {
           chat_input_send.classList.remove('enabled')
         }
       }
-         chat_logout_container.append(chat_logout)
+
+      var chat_logout_container = document.createElement('div')
+      chat_logout_container.setAttribute('id', 'chat_logout_container')
+
+      var chat_logout = document.createElement('button')
+      chat_logout.setAttribute('id', 'chat_logout')
+      chat_logout.textContent = `${parent.get_name()} • logout`
+      // "Logout" is really just deleting the name from the localStorage
+      chat_logout.onclick = function(){
+        localStorage.clear()
+        // Go back to home page
+        parent.home()
+      }
+
+      chat_logout_container.append(chat_logout)
       chat_input_container.append(chat_input, chat_input_send)
       chat_inner_container.append(chat_content_container, chat_input_container, chat_logout_container)
       chat_container.append(chat_inner_container)
@@ -229,22 +245,7 @@ window.onload = function() {
     refresh_chat(){
       var chat_content_container = document.getElementById('chat_content_container')
 
-      
-
-      var chat_logout_container = document.createElement('div')
-      chat_logout_container.setAttribute('id', 'chat_logout_container')
-
-      var chat_logout = document.createElement('button')
-      chat_logout.setAttribute('id', 'chat_logout')
-      chat_logout.textContent = `${parent.get_name()} • logout`
-      // "Logout" is really just deleting the name from the localStorage
-      chat_logout.onclick = function(){
-        localStorage.clear()
-        // Go back to home page
-        parent.home()
-      }
-
-            // Get the chats from firebase
+      // Get the chats from firebase
       db.ref('chats/').on('value', function(messages_object) {
         // When we get the data clear chat_content_container
         chat_content_container.innerHTML = ''
@@ -302,7 +303,8 @@ window.onload = function() {
           var message_user = document.createElement('p')
           message_user.setAttribute('class', 'message_user')
           message_user.textContent = `${name}`
-           var message_content_container = document.createElement('div')
+
+          var message_content_container = document.createElement('div')
           message_content_container.setAttribute('class', 'message_content_container')
 
           var message_content = document.createElement('p')
@@ -323,7 +325,7 @@ window.onload = function() {
     }
   }
   // So we've "built" our app. Let's make it work!!
-  var app = new MEME_CHAT()
+  var app = new chat_box()
   // If we have a name stored in localStorage.
   // Then use that name. Otherwise , if not.
   // Go to home.
