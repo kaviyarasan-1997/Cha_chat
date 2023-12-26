@@ -20,7 +20,7 @@ body{
   align-items: center;
   background-color: #D64045;
   border-bottom: 5px solid #fff;
-  box-shadow: 0 0 30px -18px #D64045;
+  box-shadow: 0 0 30px -18px  #D64045;
 }
 #title_inner_container{
   width: 100%;
